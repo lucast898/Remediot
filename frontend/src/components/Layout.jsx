@@ -12,6 +12,9 @@ export default function Layout({ children }) {
 
   return (
     <div>
+      <a href="#main-content" className="skip-link">
+        Pular para o conteúdo
+      </a>
       <header
         style={{
           display: 'flex',
@@ -32,7 +35,9 @@ export default function Layout({ children }) {
           </div>
         )}
       </header>
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>
+        {children}
+      </main>
     </div>
   )
 }
