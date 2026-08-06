@@ -14,14 +14,21 @@ public final class PatientAccessGuard {
     }
 
     public static boolean canAccess(User currentUser, Patient patient) {
-        if (currentUser == null || patient == null || currentUser.getRole() == null) {
+        if (currentUser == null) {
             return false;
         }
-        if (currentUser.getRole() == Role.CUIDADOR) {
-            return patient.getCaregiver().getId().equals(currentUser.getId());
+        return canAccess(currentUser.getId(), currentUser.getRole(), patient);
+    }
+
+    public static boolean canAccess(Long currentUserId, Role currentRole, Patient patient) {
+        if (currentUserId == null || patient == null || currentRole == null) {
+            return false;
         }
-        if (currentUser.getRole() == Role.PACIENTE) {
-            return patient.getUser().getId().equals(currentUser.getId());
+        if (currentRole == Role.CUIDADOR) {
+            return patient.getCaregiver().getId().equals(currentUserId);
+        }
+        if (currentRole == Role.PACIENTE) {
+            return patient.getUser().getId().equals(currentUserId);
         }
         return false;
     }
