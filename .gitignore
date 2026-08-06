@@ -1,0 +1,10 @@
+# Ferramentas locais
+.claude/settings.local.json
+
+# Ambiente
+.env
+.env.local
+
+# SO
+.DS_Store
+Thumbs.db
