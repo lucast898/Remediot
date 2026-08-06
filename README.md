@@ -81,6 +81,18 @@ npm run dev
 
 Abra http://localhost:5173.
 
+## Dados de exemplo
+
+Na primeira execução com o banco vazio, o backend cria automaticamente um cuidador de
+demonstração e 4 pacientes com medicamentos variados (ver `remediot.seed.enabled` em
+`application.properties`, ligado por padrão):
+
+- **Cuidador:** `cuidadora@remediot.com.br` / `demo1234`
+- Os 4 pacientes (Maria, Antônio, Rosa, Carlos) usam a mesma senha `demo1234`, com e-mails
+  no formato `nome.sobrenome@remediot.com.br` (ver `SeedDataRunner`).
+
+Para começar com o banco vazio (sem os dados de exemplo), defina `SEED_ENABLED=false`.
+
 ## Como construir com o Claude Code
 
 1. Crie a pasta `remediot/` e coloque dentro os quatro `.md` deste pacote.
@@ -92,7 +104,7 @@ Abra http://localhost:5173.
 ## Roadmap
 
 - [x] Definição de escopo e arquitetura
-- [ ] App completo com simulador de sensor (fase atual)
+- [x] App completo com simulador de sensor
 - [ ] Impressão 3D e montagem da gaveta (ESP32 + sensor magnético + buzzer)
 - [ ] Integração ESP32 → MQTT → Node-RED → API
 - [ ] Alarmes via Alexa (Voice Monkey) e WhatsApp
