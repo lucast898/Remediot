@@ -45,8 +45,8 @@ export const api = {
 export const authApi = {
   login: (email, password) =>
     request('/api/auth/login', { method: 'POST', body: { email, password }, auth: false }),
-  register: (fullName, email, password) =>
-    request('/api/auth/register', { method: 'POST', body: { fullName, email, password }, auth: false }),
+  register: (fullName, email, password, phone) =>
+    request('/api/auth/register', { method: 'POST', body: { fullName, email, password, phone }, auth: false }),
 }
 
 export const patientsApi = {

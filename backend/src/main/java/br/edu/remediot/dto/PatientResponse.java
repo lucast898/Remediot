@@ -11,7 +11,9 @@ public record PatientResponse(
         Double latitude,
         Double longitude,
         String photoUrl,
-        Long caregiverId
+        Long caregiverId,
+        String caregiverFullName,
+        String caregiverPhone
 ) {
     public static PatientResponse from(Patient patient) {
         return new PatientResponse(
@@ -23,7 +25,9 @@ public record PatientResponse(
                 patient.getLatitude(),
                 patient.getLongitude(),
                 patient.getPhotoUrl(),
-                patient.getCaregiver().getId()
+                patient.getCaregiver().getId(),
+                patient.getCaregiver().getFullName(),
+                patient.getCaregiver().getPhone()
         );
     }
 }

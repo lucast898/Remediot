@@ -45,6 +45,7 @@ public class AuthService {
             throw new EmailAlreadyInUseException(request.email());
         }
         User user = new User(request.fullName(), request.email(), passwordEncoder.encode(request.password()), Role.CUIDADOR);
+        user.setPhone(request.phone());
         user = userRepository.save(user);
         return buildAuthResponse(user);
     }

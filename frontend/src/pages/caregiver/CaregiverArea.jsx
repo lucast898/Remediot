@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import PatientListPage from './PatientListPage'
 import PatientFormPage from './PatientFormPage'
 import PatientDetailPage from './PatientDetailPage'
-import MedicationFormPage from './MedicationFormPage'
+import MedicationFormPage from '../shared/MedicationFormPage'
 
 export default function CaregiverArea() {
   return (

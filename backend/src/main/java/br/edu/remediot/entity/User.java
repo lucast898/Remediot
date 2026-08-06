@@ -20,6 +20,8 @@ public class User {
     @Column(nullable = false)
     private String passwordHash;
 
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Role role;
@@ -67,6 +69,14 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Instant getCreatedAt() {

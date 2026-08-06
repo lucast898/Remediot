@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState({})
   const [loading, setLoading] = useState(false)
@@ -19,7 +20,7 @@ export default function RegisterPage() {
     setFieldErrors({})
     setLoading(true)
     try {
-      await register(fullName, email, password)
+      await register(fullName, email, password, phone || null)
       navigate('/', { replace: true })
     } catch (err) {
       setError(err.message)
@@ -82,6 +83,18 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
+        </div>
+
+        <div className="field">
+          <label htmlFor="phone">Telefone (para o paciente conseguir ligar)</label>
+          <input
+            id="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="11987654321"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
         </div>
 
         <button type="submit" className="btn btn-block" disabled={loading}>

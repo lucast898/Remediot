@@ -4,7 +4,7 @@ import HomeRedirect from './pages/HomeRedirect'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import CaregiverArea from './pages/caregiver/CaregiverArea'
-import PatientHome from './pages/patient/PatientHome'
+import PatientArea from './pages/patient/PatientArea'
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="PACIENTE">
-              <PatientHome />
+              <PatientArea />
             </RequireRole>
           </RequireAuth>
         }

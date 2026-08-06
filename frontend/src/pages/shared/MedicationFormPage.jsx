@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { medicationsApi } from '../../services/api'
 
-export default function MedicationFormPage({ mode }) {
+export default function MedicationFormPage({ mode, patientId: patientIdProp, onSaved }) {
   const isEdit = mode === 'edit'
-  const { patientId, medicationId } = useParams()
+  const params = useParams()
+  const patientId = patientIdProp ?? params.patientId
+  const medicationId = params.medicationId
   const navigate = useNavigate()
 
   const [name, setName] = useState('')
@@ -71,7 +73,11 @@ export default function MedicationFormPage({ mode }) {
       } else {
         await medicationsApi.create(patientId, payload)
       }
-      navigate(`/cuidador/pacientes/${patientId}`)
+      if (onSaved) {
+        onSaved()
+      } else {
+        navigate(`/cuidador/pacientes/${patientId}`)
+      }
     } catch (err) {
       setError(err.message)
     } finally {

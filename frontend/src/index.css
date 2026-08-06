@@ -98,6 +98,18 @@ button, input, select, textarea {
   width: 100%;
 }
 
+.btn-call {
+  background: var(--color-weight-1);
+  font-size: 1.3rem;
+  min-height: 64px;
+  text-decoration: none;
+}
+
+.btn-call:hover {
+  background: #15803d;
+  opacity: 0.9;
+}
+
 .field {
   display: flex;
   flex-direction: column;
