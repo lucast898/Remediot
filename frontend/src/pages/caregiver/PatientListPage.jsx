@@ -42,9 +42,14 @@ export default function PatientListPage() {
     <div className="container-wide">
       <div className="page-header">
         <h1>Minha carteira de pacientes</h1>
-        <Link to="pacientes/novo" className="btn">
-          + Adicionar paciente
-        </Link>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <Link to="dashboard" className="btn btn-secondary">
+            Dashboard de assertividade
+          </Link>
+          <Link to="pacientes/novo" className="btn">
+            + Adicionar paciente
+          </Link>
+        </div>
       </div>
 
       {error && (

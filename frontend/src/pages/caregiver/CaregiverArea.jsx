@@ -3,6 +3,7 @@ import Layout from '../../components/Layout'
 import PatientListPage from './PatientListPage'
 import PatientFormPage from './PatientFormPage'
 import PatientDetailPage from './PatientDetailPage'
+import DashboardPage from './DashboardPage'
 import MedicationFormPage from '../shared/MedicationFormPage'
 
 export default function CaregiverArea() {
@@ -10,6 +11,7 @@ export default function CaregiverArea() {
     <Layout>
       <Routes>
         <Route index element={<PatientListPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="pacientes/novo" element={<PatientFormPage mode="create" />} />
         <Route path="pacientes/:patientId" element={<PatientDetailPage />} />
         <Route path="pacientes/:patientId/editar" element={<PatientFormPage mode="edit" />} />
