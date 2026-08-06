@@ -8,7 +8,13 @@ import br.edu.remediot.repository.PatientRepository;
 import br.edu.remediot.security.UserPrincipal;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Métodos são @Transactional porque a checagem de acesso percorre associações
+ * lazy (ex.: dose -> schedule -> medication -> patient); com
+ * open-in-view=false, isso só funciona dentro de uma transação aberta.
+ */
 @Service
 public class AccessControlService {
 
@@ -20,6 +26,7 @@ public class AccessControlService {
         this.doseRepository = doseRepository;
     }
 
+    @Transactional(readOnly = true)
     public Patient getAccessiblePatient(Long patientId, UserPrincipal principal) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado"));
@@ -27,6 +34,7 @@ public class AccessControlService {
         return patient;
     }
 
+    @Transactional(readOnly = true)
     public Dose getAccessibleDose(Long doseId, UserPrincipal principal) {
         Dose dose = doseRepository.findById(doseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Dose não encontrada"));

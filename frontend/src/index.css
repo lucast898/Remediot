@@ -175,6 +175,70 @@ button, input, select, textarea {
   color: var(--color-weight-3);
 }
 
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: #f1f5f9;
+  color: var(--color-text-muted);
+}
+
+.badge-status-tomada {
+  background: var(--color-weight-1-bg);
+  color: var(--color-weight-1);
+}
+
+.badge-status-atrasada {
+  background: var(--color-weight-2-bg);
+  color: var(--color-weight-2);
+}
+
+.badge-status-nao-retirada {
+  background: var(--color-weight-3-bg);
+  color: var(--color-weight-3);
+}
+
+.patient-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.patient-card-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.patient-card.alert-weight-3 {
+  border-color: var(--color-weight-3);
+  border-width: 2px;
+  background: var(--color-weight-3-bg);
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .container {
   max-width: 480px;
   margin: 0 auto;

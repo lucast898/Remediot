@@ -3,7 +3,7 @@ import { RequireAuth, RequireRole } from './components/RouteGuards'
 import HomeRedirect from './pages/HomeRedirect'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
-import CaregiverHome from './pages/caregiver/CaregiverHome'
+import CaregiverArea from './pages/caregiver/CaregiverArea'
 import PatientHome from './pages/patient/PatientHome'
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="CUIDADOR">
-              <CaregiverHome />
+              <CaregiverArea />
             </RequireRole>
           </RequireAuth>
         }
