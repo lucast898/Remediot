@@ -12,11 +12,19 @@ async function request(path, { method = 'GET', body, auth = true } = {}) {
     if (token) headers.Authorization = `Bearer ${token}`
   }
 
-  const response = await fetch(`${API_URL}${path}`, {
-    method,
-    headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  })
+  let response
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      method,
+      headers,
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    })
+  } catch {
+    // fetch só rejeita em falha de rede (servidor fora do ar, sem internet, CORS)
+    const error = new Error('Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.')
+    error.status = 0
+    throw error
+  }
 
   if (response.status === 204) {
     return null

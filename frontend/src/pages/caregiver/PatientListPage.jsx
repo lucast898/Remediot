@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { LayoutDashboard, MapPin, Plus, TriangleAlert, UserRound } from 'lucide-react'
 import { dashboardApi, patientsApi } from '../../services/api'
 import { wazeUrl } from '../../utils/waze'
 
@@ -39,15 +40,17 @@ export default function PatientListPage() {
   }, [])
 
   return (
-    <div className="container-wide">
+    <div className="container-wide fade-in">
       <div className="page-header">
         <h1>Minha carteira de pacientes</h1>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Link to="dashboard" className="btn btn-secondary">
+            <LayoutDashboard size={18} />
             Dashboard de assertividade
           </Link>
           <Link to="pacientes/novo" className="btn">
-            + Adicionar paciente
+            <Plus size={18} />
+            Adicionar paciente
           </Link>
         </div>
       </div>
@@ -64,20 +67,25 @@ export default function PatientListPage() {
         <p>Nenhum paciente cadastrado ainda. Clique em "Adicionar paciente" para começar.</p>
       )}
 
-      <div className="grid-cards">
+      <div className="grid-cards stagger">
         {patients.map((patient) => {
           const adherence = adherenceByPatient[patient.id]
           const waze = wazeUrl(patient.latitude, patient.longitude)
           const highlight = adherence?.weightThreeLateAlert
 
           return (
-            <div key={patient.id} className={`card patient-card ${highlight ? 'alert-weight-3' : ''}`}>
-              <img
-                className="patient-card-photo"
-                src={patient.photoUrl || '/favicon.svg'}
-                alt=""
-                aria-hidden="true"
-              />
+            <div key={patient.id} className={`card card-hover patient-card ${highlight ? 'alert-weight-3' : ''}`}>
+              {patient.photoUrl ? (
+                <img className="patient-card-photo" src={patient.photoUrl} alt="" aria-hidden="true" />
+              ) : (
+                <div
+                  className="patient-card-photo"
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)' }}
+                  aria-hidden="true"
+                >
+                  <UserRound size={32} />
+                </div>
+              )}
               <div style={{ flex: 1 }}>
                 <Link to={`pacientes/${patient.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <h2 style={{ margin: '0 0 0.25rem' }}>{patient.fullName}</h2>
@@ -90,14 +98,28 @@ export default function PatientListPage() {
                 </p>
 
                 {adherence && (
-                  <p style={{ margin: '0 0 0.5rem', fontWeight: 700 }}>
+                  <p
+                    style={{
+                      margin: '0 0 0.5rem',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                      color: highlight ? 'var(--color-weight-3)' : 'inherit',
+                    }}
+                  >
                     Adesão hoje: {adherence.adherencePercentage}%
-                    {highlight && ' · ⚠ remédio de peso 3 atrasado'}
+                    {highlight && (
+                      <>
+                        <TriangleAlert size={16} /> remédio de peso 3 atrasado
+                      </>
+                    )}
                   </p>
                 )}
 
                 {waze && (
                   <a href={waze} target="_blank" rel="noreferrer" className="btn btn-secondary">
+                    <MapPin size={16} />
                     Traçar rota
                   </a>
                 )}

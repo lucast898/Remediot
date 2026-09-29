@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Save } from 'lucide-react'
 import { patientsApi } from '../../services/api'
 
 const EMPTY_FORM = {
@@ -99,7 +100,7 @@ export default function PatientFormPage({ mode }) {
   }
 
   return (
-    <div className="container">
+    <div className="container fade-in">
       <h1>{isEdit ? 'Editar paciente' : 'Adicionar paciente'}</h1>
 
       {error && (
@@ -187,6 +188,7 @@ export default function PatientFormPage({ mode }) {
         </div>
 
         <button type="submit" className="btn btn-block" disabled={saving}>
+          <Save size={18} />
           {saving ? 'Salvando...' : 'Salvar'}
         </button>
       </form>

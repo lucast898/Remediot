@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Clock, PackageOpen, Phone, Plus } from 'lucide-react'
 import DoseStatusBadge from '../../components/DoseStatusBadge'
 import WeightBadge from '../../components/WeightBadge'
 import { useAuth } from '../../context/AuthContext'
@@ -16,6 +17,7 @@ export default function PatientAgendaPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [simulatingId, setSimulatingId] = useState(null)
+  const [justRegisteredId, setJustRegisteredId] = useState(null)
 
   const load = useCallback(async () => {
     setError('')
@@ -43,6 +45,8 @@ export default function PatientAgendaPage() {
     try {
       await dosesApi.simulateOpening(doseId)
       await load()
+      setJustRegisteredId(doseId)
+      setTimeout(() => setJustRegisteredId(null), 1500)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -59,7 +63,7 @@ export default function PatientAgendaPage() {
   }
 
   return (
-    <div className="container">
+    <div className="container fade-in">
       <h1>Minha agenda de hoje</h1>
 
       {error && (
@@ -70,6 +74,7 @@ export default function PatientAgendaPage() {
 
       {patient?.caregiverPhone ? (
         <a href={`tel:${patient.caregiverPhone}`} className="btn btn-call btn-block">
+          <Phone size={20} />
           Ligar para {patient.caregiverFullName || 'o cuidador'}
         </a>
       ) : (
@@ -80,15 +85,24 @@ export default function PatientAgendaPage() {
         <div className="page-header">
           <h2 style={{ margin: 0 }}>Medicamentos de hoje</h2>
           <Link to="medicamentos/novo" className="btn btn-secondary">
-            + Adicionar medicamento
+            <Plus size={18} />
+            Adicionar medicamento
           </Link>
         </div>
 
         {doses.length === 0 && <p>Nenhum medicamento agendado para hoje.</p>}
 
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <ul className="stagger" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {doses.map((dose) => (
-            <li key={dose.id} className="card" style={{ marginBottom: '1rem' }}>
+            <li
+              key={dose.id}
+              className="card"
+              style={{
+                marginBottom: '1rem',
+                boxShadow: justRegisteredId === dose.id ? '0 0 0 3px var(--color-primary-light)' : undefined,
+                transition: 'box-shadow 0.4s ease',
+              }}
+            >
               <div
                 style={{
                   display: 'flex',
@@ -99,9 +113,12 @@ export default function PatientAgendaPage() {
                 }}
               >
                 <div>
-                  <strong style={{ fontSize: '1.2rem' }}>{formatTime(dose.scheduledAt)}</strong> —{' '}
-                  {dose.medicationName} ({dose.medicationDose})
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                  <strong style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Clock size={18} style={{ color: 'var(--color-primary)' }} />
+                    {formatTime(dose.scheduledAt)}
+                  </strong>{' '}
+                  — {dose.medicationName} ({dose.medicationDose})
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <WeightBadge weight={dose.medicationWeight} />
                     <DoseStatusBadge status={dose.status} />
                   </div>
@@ -112,6 +129,7 @@ export default function PatientAgendaPage() {
                   disabled={simulatingId === dose.id}
                   onClick={() => handleSimulate(dose.id)}
                 >
+                  <PackageOpen size={18} />
                   {simulatingId === dose.id ? 'Registrando...' : 'Simular abertura da gaveta'}
                 </button>
               </div>

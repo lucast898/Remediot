@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { MapPin, Pencil, Pill, Plus } from 'lucide-react'
 import DoseStatusBadge from '../../components/DoseStatusBadge'
 import WeightBadge from '../../components/WeightBadge'
 import { dosesApi, medicationsApi, patientsApi } from '../../services/api'
@@ -74,7 +75,7 @@ export default function PatientDetailPage() {
   const waze = wazeUrl(patient.latitude, patient.longitude)
 
   return (
-    <div className="container-wide">
+    <div className="container-wide fade-in">
       <div className="page-header">
         <div>
           <h1 style={{ marginBottom: '0.25rem' }}>{patient.fullName}</h1>
@@ -85,10 +86,12 @@ export default function PatientDetailPage() {
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           {waze && (
             <a href={waze} target="_blank" rel="noreferrer" className="btn btn-secondary">
+              <MapPin size={16} />
               Traçar rota
             </a>
           )}
           <Link to={`/cuidador/pacientes/${patientId}/editar`} className="btn btn-secondary">
+            <Pencil size={16} />
             Editar paciente
           </Link>
         </div>
@@ -98,7 +101,7 @@ export default function PatientDetailPage() {
         <h2>Resumo de hoje</h2>
         <div
           role="img"
-          aria-label={`${taken} tomados no horário, ${late} atrasados, ${missed} não retirados, ${pending} pendentes`}
+          aria-label={`${taken} registrados no horário, ${late} atrasados, ${missed} não retirados, ${pending} pendentes`}
           style={{ display: 'flex', height: '24px', borderRadius: '999px', overflow: 'hidden', margin: '1rem 0' }}
         >
           <div style={{ width: `${(taken / total) * 100}%`, background: 'var(--color-weight-1)' }} />
@@ -107,7 +110,7 @@ export default function PatientDetailPage() {
           <div style={{ width: `${(pending / total) * 100}%`, background: '#cbd5e1' }} />
         </div>
         <p>
-          <strong>{taken}</strong> tomados no horário · <strong>{late}</strong> com atraso ·{' '}
+          <strong>{taken}</strong> registrados no horário · <strong>{late}</strong> com atraso ·{' '}
           <strong>{missed}</strong> não retirados · <strong>{pending}</strong> pendentes
         </p>
       </section>
@@ -147,7 +150,8 @@ export default function PatientDetailPage() {
         <div className="page-header">
           <h2 style={{ margin: 0 }}>Medicamentos</h2>
           <Link to={`/cuidador/pacientes/${patientId}/medicamentos/novo`} className="btn">
-            + Adicionar medicamento
+            <Plus size={18} />
+            Adicionar medicamento
           </Link>
         </div>
         {medications.length === 0 && <p>Nenhum medicamento cadastrado ainda.</p>}
@@ -165,9 +169,10 @@ export default function PatientDetailPage() {
                 borderBottom: '1px solid var(--color-border)',
               }}
             >
-              <span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Pill size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
                 <strong>{medication.name}</strong> — {medication.dose} · horários:{' '}
-                {medication.times.join(', ')}
+                {medication.times.map((time) => time.slice(0, 5)).join(', ')}
               </span>
               <span style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                 <WeightBadge weight={medication.weight} />
@@ -175,6 +180,7 @@ export default function PatientDetailPage() {
                   to={`/cuidador/pacientes/${patientId}/medicamentos/${medication.id}/editar`}
                   className="btn btn-secondary"
                 >
+                  <Pencil size={16} />
                   Editar
                 </Link>
               </span>

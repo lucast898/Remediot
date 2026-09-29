@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { HeartPulse, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Layout({ children }) {
@@ -15,27 +16,22 @@ export default function Layout({ children }) {
       <a href="#main-content" className="skip-link">
         Pular para o conteúdo
       </a>
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '1rem 1.25rem',
-          background: 'var(--color-surface)',
-          borderBottom: '1px solid var(--color-border)',
-        }}
-      >
-        <strong style={{ fontSize: '1.25rem', color: 'var(--color-primary-dark)' }}>RemedIoT</strong>
+      <header className="app-header">
+        <span className="app-header-brand">
+          <HeartPulse size={22} strokeWidth={2.3} />
+          RemedIoT
+        </span>
         {auth && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span>Olá, {auth.fullName}</span>
+          <div className="app-header-user">
+            <span>Olá, {auth.fullName?.split(' ')[0] || auth.fullName}</span>
             <button type="button" className="btn btn-secondary" onClick={handleLogout}>
+              <LogOut size={16} />
               Sair
             </button>
           </div>
         )}
       </header>
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" tabIndex={-1} className="fade-in">
         {children}
       </main>
     </div>

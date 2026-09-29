@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { HeartHandshake, UserPlus } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function RegisterPage() {
@@ -31,9 +32,25 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container">
+    <div className="container fade-in">
+      <div
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 'var(--radius-sm)',
+          background: 'var(--color-primary-light)',
+          color: 'var(--color-primary-dark)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '1.25rem',
+        }}
+      >
+        <HeartHandshake size={28} />
+      </div>
+
       <h1>Criar conta de cuidador</h1>
-      <p>
+      <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.75rem' }}>
         O cadastro aqui é para cuidadores. Cada paciente ganha um acesso próprio quando o
         cuidador o adiciona à carteira.
       </p>
@@ -98,6 +115,7 @@ export default function RegisterPage() {
         </div>
 
         <button type="submit" className="btn btn-block" disabled={loading}>
+          <UserPlus size={18} />
           {loading ? 'Criando conta...' : 'Criar conta'}
         </button>
       </form>

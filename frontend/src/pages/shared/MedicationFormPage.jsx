@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Plus, Save, Trash2 } from 'lucide-react'
 import { medicationsApi } from '../../services/api'
 
 export default function MedicationFormPage({ mode, patientId: patientIdProp, onSaved }) {
@@ -33,7 +34,7 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
         setName(medication.name)
         setDose(medication.dose)
         setWeight(String(medication.weight))
-        setTimes(medication.times.length > 0 ? medication.times : [''])
+        setTimes(medication.times.length > 0 ? medication.times.map((time) => time.slice(0, 5)) : [''])
       })
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false))
@@ -94,7 +95,7 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
   }
 
   return (
-    <div className="container">
+    <div className="container fade-in">
       <h1>{isEdit ? 'Editar medicamento' : 'Adicionar medicamento'}</h1>
 
       {error && (
@@ -135,17 +136,20 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
               />
               {times.length > 1 && (
                 <button type="button" className="btn btn-secondary" onClick={() => removeTime(index)}>
+                  <Trash2 size={16} />
                   Remover
                 </button>
               )}
             </div>
           ))}
           <button type="button" className="btn btn-secondary" onClick={addTime}>
-            + Adicionar horário
+            <Plus size={16} />
+            Adicionar horário
           </button>
         </div>
 
         <button type="submit" className="btn btn-block" disabled={saving} style={{ marginTop: '1rem' }}>
+          <Save size={18} />
           {saving ? 'Salvando...' : 'Salvar'}
         </button>
       </form>

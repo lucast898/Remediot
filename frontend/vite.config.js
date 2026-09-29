@@ -13,7 +13,7 @@ export default defineConfig({
         short_name: 'RemedIoT',
         description: 'Monitoramento de adesão medicamentosa para cuidadores e pacientes',
         lang: 'pt-BR',
-        theme_color: '#2563eb',
+        theme_color: '#0f766e',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',

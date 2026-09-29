@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { ArrowLeft, TrendingUp, Users, XCircle } from 'lucide-react'
 import { dashboardApi } from '../../services/api'
 
 function categorize(patient) {
@@ -81,11 +82,12 @@ export default function DashboardPage() {
     : 0
 
   return (
-    <div className="container-wide">
+    <div className="container-wide fade-in">
       <div className="page-header">
         <h1>Dashboard de assertividade</h1>
         <Link to="/cuidador" className="btn btn-secondary">
-          ← Carteira de pacientes
+          <ArrowLeft size={18} />
+          Carteira de pacientes
         </Link>
       </div>
 
@@ -100,6 +102,7 @@ export default function DashboardPage() {
       {data.length > 0 && (
         <>
           <div
+            className="stagger"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -107,19 +110,37 @@ export default function DashboardPage() {
               marginBottom: '2rem',
             }}
           >
-            <div className="card">
-              <strong style={{ fontSize: '2rem' }}>{data.length}</strong>
-              <div>pacientes</div>
+            <div className="card stat-tile">
+              <div className="stat-tile-icon">
+                <Users size={22} />
+              </div>
+              <div>
+                <div className="stat-tile-value">{data.length}</div>
+                <div className="stat-tile-label">pacientes</div>
+              </div>
             </div>
-            <div className="card">
-              <strong style={{ fontSize: '2rem' }}>{mediaAdesao}%</strong>
-              <div>adesão média hoje</div>
+            <div className="card stat-tile">
+              <div className="stat-tile-icon">
+                <TrendingUp size={22} />
+              </div>
+              <div>
+                <div className="stat-tile-value">{mediaAdesao}%</div>
+                <div className="stat-tile-label">adesão média hoje</div>
+              </div>
             </div>
-            <div className="card">
-              <strong style={{ fontSize: '2rem', color: 'var(--color-weight-3)' }}>
-                {naoTomando.length}
-              </strong>
-              <div>não estão tomando</div>
+            <div className="card stat-tile">
+              <div
+                className="stat-tile-icon"
+                style={{ background: 'var(--color-weight-3-bg)', color: 'var(--color-weight-3)' }}
+              >
+                <XCircle size={22} />
+              </div>
+              <div>
+                <div className="stat-tile-value" style={{ color: 'var(--color-weight-3)' }}>
+                  {naoTomando.length}
+                </div>
+                <div className="stat-tile-label">não estão tomando</div>
+              </div>
             </div>
           </div>
 
@@ -131,14 +152,14 @@ export default function DashboardPage() {
                 <YAxis allowDecimals={false} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="No horário" stackId="doses" fill="#15803d" />
-                <Bar dataKey="Com atraso" stackId="doses" fill="#a16207" />
-                <Bar dataKey="Não retirado" stackId="doses" fill="#b91c1c" />
+                <Bar dataKey="No horário" stackId="doses" fill="#15803d" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Com atraso" stackId="doses" fill="#b45309" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Não retirado" stackId="doses" fill="#b91c1c" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="grid-cards">
+          <div className="grid-cards stagger">
             <CategoryList title="Não está tomando" patients={naoTomando} />
             <CategoryList title="Com atraso" patients={comAtraso} />
             <CategoryList title="No horário" patients={noHorario} />
