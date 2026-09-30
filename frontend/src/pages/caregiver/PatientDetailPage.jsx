@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { MapPin, Pencil, Pill, Plus } from 'lucide-react'
+import { ArrowLeft, MapPin, Pencil, Pill, Plus } from 'lucide-react'
 import DoseStatusBadge from '../../components/DoseStatusBadge'
 import WeightBadge from '../../components/WeightBadge'
 import { dosesApi, medicationsApi, patientsApi } from '../../services/api'
@@ -8,6 +8,18 @@ import { wazeUrl } from '../../utils/waze'
 
 function formatTime(dateTimeString) {
   return new Date(dateTimeString).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
+
+function BackToPortfolioLink() {
+  return (
+    <Link
+      to="/cuidador"
+      className="btn-ghost btn"
+      style={{ padding: '0.4rem 0.6rem', marginBottom: '1rem', display: 'inline-flex' }}
+    >
+      <ArrowLeft size={18} /> Voltar para a carteira
+    </Link>
+  )
 }
 
 export default function PatientDetailPage() {
@@ -51,6 +63,7 @@ export default function PatientDetailPage() {
   if (loading) {
     return (
       <div className="container-wide">
+        <BackToPortfolioLink />
         <p>Carregando...</p>
       </div>
     )
@@ -59,6 +72,7 @@ export default function PatientDetailPage() {
   if (error) {
     return (
       <div className="container-wide">
+        <BackToPortfolioLink />
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
@@ -76,6 +90,7 @@ export default function PatientDetailPage() {
 
   return (
     <div className="container-wide fade-in">
+      <BackToPortfolioLink />
       <div className="page-header">
         <div>
           <h1 style={{ marginBottom: '0.25rem' }}>{patient.fullName}</h1>
