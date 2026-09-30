@@ -21,9 +21,11 @@ Projeto de TCC, orientado pelo Prof. Wallace Rodrigues de Santana. Alinhado aos 
 ## Escopo desta fase
 
 Construir **o aplicativo completo** (frontend + backend + banco), com **dados de sensor
-simulados**. O hardware (ESP32), a integração com Alexa e o WhatsApp entram numa fase
-futura — mas o código de agora deve deixar os **ganchos** prontos para eles (ver
-"Integrações futuras").
+simulados**. O hardware (ESP32) e o WhatsApp entram numa fase futura — mas o código de
+agora deve deixar os **ganchos** prontos para eles (ver "Integrações futuras").
+
+**Alexa (em teste desde 29/09/2026):** os lembretes antes da dose já falam de verdade no
+Echo via Voice Monkey (API v3) — ver "Lembretes e Alexa".
 
 Fora de escopo: Grafana e InfluxDB (eram para o cenário clínico/pessoa jurídica, que foi
 descartado). Não usar esses componentes.
@@ -98,7 +100,7 @@ Cores na UI: peso 1 = verde, peso 2 = amarelo, peso 3 = vermelho.
 - Agenda do dia: medicamentos com horário, dose e peso (cor por peso).
 - Botão grande "Ligar para o cuidador/família" (link `tel:`).
 - Adicionar medicamento.
-- Placeholder para os alarmes sonoros 20/10/1 minutos antes.
+- Lembretes 10 min / 5 min / 30 s antes de cada dose (ver "Lembretes e Alexa").
 
 ## Simulador de hardware (para demonstração)
 
@@ -117,8 +119,18 @@ depois sem reescrever telas:
 - `AlertService` — hoje só grava/loga; amanhã chama Voice Monkey (Alexa), WhatsApp e push.
 - Endpoint REST reservado, ex.: `POST /api/devices/events` (autenticado por chave do
   dispositivo) para o Node-RED entregar os eventos.
-- Agendador dos alarmes 20/10/1 min: usar `@Scheduled` (ou Quartz) no backend, lendo os
-  horários de cada paciente.
+
+## Lembretes e Alexa
+
+- `DoseReminderScheduler` (`@Scheduled`, a cada 5 s) dispara lembretes **10 min, 5 min e
+  30 s** antes de cada dose `AGENDADA` (configurável em `REMINDER_OFFSETS`). Vale só o
+  lembrete mais próximo do horário; os enviados ficam em `dose_reminder` (sem repetição).
+- Regra pura em `ReminderPolicy` (testada em `ReminderPolicyTest`).
+- `VoiceAnnouncer` → `VoiceMonkeyAnnouncer` (API v3 `/announce`). Sem `VOICEMONKEY_TOKEN`
+  e `VOICEMONKEY_DEVICE`, só loga.
+- Só os pacientes em `ALEXA_PATIENT_IDS` recebem voz (plano gratuito: 200 chamadas/mês).
+  No teste atual: Maria Silva (id 1).
+- `POST /api/alexa/test` faz o Echo falar uma frase de teste.
 
 ## Convenções
 
@@ -131,6 +143,6 @@ depois sem reescrever telas:
 ## O que NÃO fazer
 
 - Não usar Grafana nem InfluxDB.
-- Não implementar de verdade Alexa/WhatsApp/MQTT nesta fase — só os ganchos.
+- Não implementar de verdade WhatsApp/MQTT nesta fase — só os ganchos.
 - Não afirmar "ingestão" — o sistema mede interação com o compartimento.
 - Não deixar cuidador ver pacientes que não estão na carteira dele (isolamento por dono).

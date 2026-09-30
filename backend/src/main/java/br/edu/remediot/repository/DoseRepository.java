@@ -17,5 +17,7 @@ public interface DoseRepository extends JpaRepository<Dose, Long> {
 
     List<Dose> findByStatusAndScheduledAtBefore(DoseStatus status, LocalDateTime cutoff);
 
+    List<Dose> findByStatusAndScheduledAtBetween(DoseStatus status, LocalDateTime start, LocalDateTime end);
+
     Optional<Dose> findByScheduleIdAndScheduledDate(Long scheduleId, LocalDate scheduledDate);
 }
