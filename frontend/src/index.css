@@ -211,6 +211,35 @@ button, input, select, textarea {
   width: 100%;
 }
 
+.btn-danger {
+  background: var(--color-danger);
+}
+
+.btn-danger:hover {
+  background: #991b1b;
+}
+
+.btn-danger-outline {
+  background: var(--color-surface);
+  color: var(--color-danger);
+  border: 2px solid var(--color-danger);
+  box-shadow: none;
+}
+
+.btn-danger-outline:hover {
+  background: var(--color-danger-bg);
+}
+
+.danger-zone {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--color-border);
+}
+
+.danger-zone h2 {
+  color: var(--color-danger);
+}
+
 .btn-call {
   background: var(--color-weight-1);
   font-size: 1.15rem;

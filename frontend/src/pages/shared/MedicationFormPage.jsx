@@ -16,6 +16,8 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
   const [times, setTimes] = useState([''])
   const [loading, setLoading] = useState(isEdit)
   const [saving, setSaving] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -86,6 +88,19 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
     }
   }
 
+  async function handleDelete() {
+    setError('')
+    setDeleting(true)
+    try {
+      await medicationsApi.remove(patientId, medicationId)
+      navigate(`/cuidador/pacientes/${patientId}`)
+    } catch (err) {
+      setError(err.message)
+      setDeleting(false)
+      setConfirmingDelete(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="container">
@@ -153,6 +168,43 @@ export default function MedicationFormPage({ mode, patientId: patientIdProp, onS
           {saving ? 'Salvando...' : 'Salvar'}
         </button>
       </form>
+
+      {isEdit && (
+        <section className="danger-zone" aria-labelledby="delete-medication-title">
+          <h2 id="delete-medication-title">Excluir medicamento</h2>
+          {!confirmingDelete ? (
+            <>
+              <p>Remove o medicamento, os horários e todo o histórico de doses dele.</p>
+              <button type="button" className="btn btn-danger-outline btn-block" onClick={() => setConfirmingDelete(true)}>
+                <Trash2 size={18} />
+                Excluir medicamento
+              </button>
+            </>
+          ) : (
+            <>
+              <p role="alert">
+                <strong>Tem certeza que deseja excluir {name.trim() || 'este medicamento'}?</strong> Essa ação não pode ser
+                desfeita.
+              </p>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <button type="button" className="btn btn-danger" onClick={handleDelete} disabled={deleting} style={{ flex: 1 }}>
+                  <Trash2 size={18} />
+                  {deleting ? 'Excluindo...' : 'Sim, excluir'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setConfirmingDelete(false)}
+                  disabled={deleting}
+                  style={{ flex: 1 }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      )}
     </div>
   )
 }
