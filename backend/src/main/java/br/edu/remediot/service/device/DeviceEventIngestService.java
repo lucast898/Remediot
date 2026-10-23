@@ -147,7 +147,7 @@ public class DeviceEventIngestService {
         } else if (type == DeviceEventType.DOSE_PERDIDA) {
             findDose(patient, event).ifPresent(dose -> markMissed(patient, saved, dose, event));
         } else if (type.isCaregiverAlert()) {
-            alertService.handleDeviceAlert(patient, saved, DeviceEventDescriptions.describe(event.tipo(), event.dados()));
+            alertService.handleDeviceAlert(patient, saved.getType(), DeviceEventDescriptions.describe(event.tipo(), event.dados()));
         }
         // DOSE_EM_ATRASO: a dose continua AGENDADA, só histórico. É o momento em que
         // a gaveta começa a apitar (peso 2 e 3); se o grupo quiser, dá para disparar
@@ -171,7 +171,7 @@ public class DeviceEventIngestService {
 
         DoseEventData data = readDoseData(event);
         if (data != null && "DISPOSITIVO_INDISPONIVEL".equals(data.motivo())) {
-            alertService.handleDeviceAlert(patient, saved, DeviceEventDescriptions.describe(event.tipo(), event.dados()));
+            alertService.handleDeviceAlert(patient, saved.getType(), DeviceEventDescriptions.describe(event.tipo(), event.dados()));
         }
     }
 

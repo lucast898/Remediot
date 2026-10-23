@@ -1,6 +1,5 @@
 package br.edu.remediot.service;
 
-import br.edu.remediot.entity.DeviceEvent;
 import br.edu.remediot.entity.Dose;
 import br.edu.remediot.entity.Medication;
 import br.edu.remediot.entity.Patient;
@@ -31,9 +30,9 @@ public class LoggingAlertService implements AlertService {
     }
 
     @Override
-    public void handleDeviceAlert(Patient patient, DeviceEvent event, String message) {
-        log.info("[ALERTA gaveta] cuidador={} paciente={} tipo={} evento={} — {}",
-                patient.getCaregiver().getId(), patient.getId(), event.getType(), event.getEventId(), message);
+    public void handleDeviceAlert(Patient patient, String alertType, String message) {
+        log.info("[ALERTA gaveta] cuidador={} paciente={} tipo={} — {}",
+                patient.getCaregiver().getId(), patient.getId(), alertType, message);
     }
 
     protected void logAppWarning(Patient patient, Medication medication, Dose dose) {

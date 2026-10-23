@@ -40,6 +40,16 @@ public class Device {
 
     private Instant pairedAt;
 
+    /** CONEXAO_PERDIDA (LWT), REINICIO_SOLICITADO ou TROCANDO_WIFI; nulo quando online. */
+    @Column(length = 30)
+    private String offlineReason;
+
+    private Instant offlineSince;
+
+    /** O alerta de "gaveta offline há mais de 10 min" sai uma vez por queda. */
+    @Column(nullable = false)
+    private boolean offlineAlertSent;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
@@ -124,6 +134,30 @@ public class Device {
 
     public void setPairedAt(Instant pairedAt) {
         this.pairedAt = pairedAt;
+    }
+
+    public String getOfflineReason() {
+        return offlineReason;
+    }
+
+    public void setOfflineReason(String offlineReason) {
+        this.offlineReason = offlineReason;
+    }
+
+    public Instant getOfflineSince() {
+        return offlineSince;
+    }
+
+    public void setOfflineSince(Instant offlineSince) {
+        this.offlineSince = offlineSince;
+    }
+
+    public boolean isOfflineAlertSent() {
+        return offlineAlertSent;
+    }
+
+    public void setOfflineAlertSent(boolean offlineAlertSent) {
+        this.offlineAlertSent = offlineAlertSent;
     }
 
     public Instant getCreatedAt() {

@@ -20,6 +20,11 @@ public class GlobalExceptionHandler {
         return body(HttpStatus.CONFLICT, ex.getMessage());
     }
 
+    @ExceptionHandler(DeviceConflictException.class)
+    public ResponseEntity<Map<String, Object>> handleDeviceConflict(DeviceConflictException ex) {
+        return body(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex) {
         return body(HttpStatus.NOT_FOUND, ex.getMessage());

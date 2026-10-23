@@ -1,5 +1,8 @@
 package br.edu.remediot.dto.device;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Tipos de evento do CONTRATO-MQTT.md, seção 4.3. UNKNOWN cobre tipos que um
  * firmware mais novo venha a mandar: o evento é guardado e confirmado mesmo assim.
@@ -45,6 +48,21 @@ public enum DeviceEventType {
     public boolean isCaregiverAlert() {
         return this == ABERTURA_FORA_HORARIO || this == POSSIVEL_DOSE_DUPLA
                 || this == GAVETA_ESQUECIDA_ABERTA || this == FALHA_RELOGIO;
+    }
+
+    /**
+     * Alertas que a gaveta mantém pendentes (LED vermelho) até o app mandar
+     * RECONHECER_ALERTA ("Fui eu"/"Ciente", CONTRATO-MQTT.md, seção 10).
+     */
+    public boolean isAcknowledgeable() {
+        return isCaregiverAlert() || this == DOSE_PERDIDA;
+    }
+
+    public static List<String> acknowledgeableTypeNames() {
+        return Arrays.stream(values())
+                .filter(DeviceEventType::isAcknowledgeable)
+                .map(Enum::name)
+                .toList();
     }
 
     /** Eventos cujo "dados" segue o formato de DoseEventData. */

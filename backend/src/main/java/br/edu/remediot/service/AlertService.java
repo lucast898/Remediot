@@ -1,6 +1,5 @@
 package br.edu.remediot.service;
 
-import br.edu.remediot.entity.DeviceEvent;
 import br.edu.remediot.entity.Dose;
 import br.edu.remediot.entity.Patient;
 
@@ -15,7 +14,8 @@ public interface AlertService {
 
     /**
      * Alerta da gaveta que não é de uma dose (fora de horário, dose dupla, gaveta
-     * esquecida aberta, sem hora, offline). Vai para o cuidador (D9).
+     * esquecida aberta, sem hora, offline). Vai para o cuidador (D9). alertType é
+     * o tipo do evento da gaveta, ou GAVETA_OFFLINE.
      */
-    void handleDeviceAlert(Patient patient, DeviceEvent event, String message);
+    void handleDeviceAlert(Patient patient, String alertType, String message);
 }
