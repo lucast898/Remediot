@@ -1,8 +1,10 @@
 package br.edu.remediot.controller;
 
+import br.edu.remediot.entity.Device;
 import br.edu.remediot.entity.Patient;
 import br.edu.remediot.entity.Role;
 import br.edu.remediot.entity.User;
+import br.edu.remediot.repository.DeviceRepository;
 import br.edu.remediot.repository.PatientRepository;
 import br.edu.remediot.repository.UserRepository;
 import br.edu.remediot.security.UserPrincipal;
@@ -29,6 +31,7 @@ class DeviceControllerTest {
     @Autowired MockMvc mvc;
     @Autowired UserRepository userRepository;
     @Autowired PatientRepository patientRepository;
+    @Autowired DeviceRepository deviceRepository;
 
     private User caregiver;
     private User patientUser;
@@ -73,6 +76,47 @@ class DeviceControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content("{\"code\":\"C4D5\"}"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("Nenhuma gaveta")));
+    }
+
+    @Test
+    void trocarWifiEReiniciarSaoSoDoCuidador() throws Exception {
+        pairDevice();
+
+        mvc.perform(post(url("/commands/reset-wifi")).with(user(new UserPrincipal(patientUser))))
+                .andExpect(status().isForbidden());
+        mvc.perform(post(url("/commands/restart")).with(user(new UserPrincipal(patientUser))))
+                .andExpect(status().isForbidden());
+        mvc.perform(post(url("/commands/restart")).with(user(new UserPrincipal(caregiver))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("PENDENTE"));
+    }
+
+    @Test
+    void pacienteTambemReabastece() throws Exception {
+        pairDevice();
+
+        mvc.perform(post(url("/commands/refill")).with(user(new UserPrincipal(patientUser)))
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"minutes\":10}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type").value("MODO_REABASTECER"));
+        mvc.perform(post(url("/commands/refill")).with(user(new UserPrincipal(patientUser)))
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"minutes\":90}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void cuidadorDeOutraCarteiraNaoComanda() throws Exception {
+        pairDevice();
+
+        mvc.perform(post(url("/commands/locate")).with(user(new UserPrincipal(otherCaregiver))))
+                .andExpect(status().isForbidden());
+    }
+
+    private void pairDevice() {
+        Device device = new Device("A4CF12B3C4D5");
+        device.setPatient(patient);
+        device.setPairedAt(java.time.Instant.now());
+        deviceRepository.save(device);
     }
 
     private String url(String suffix) {

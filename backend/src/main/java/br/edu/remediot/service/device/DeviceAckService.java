@@ -15,10 +15,12 @@ public class DeviceAckService {
 
     private final JsonMapper jsonMapper;
     private final DeviceAgendaService agendaService;
+    private final DeviceCommandService commandService;
 
-    public DeviceAckService(JsonMapper jsonMapper, DeviceAgendaService agendaService) {
+    public DeviceAckService(JsonMapper jsonMapper, DeviceAgendaService agendaService, DeviceCommandService commandService) {
         this.jsonMapper = jsonMapper;
         this.agendaService = agendaService;
+        this.commandService = commandService;
     }
 
     public void handle(String topicDeviceId, String payload) {
@@ -36,7 +38,7 @@ public class DeviceAckService {
         if (DeviceAckMessage.TYPE_AGENDA.equals(ack.tipo())) {
             agendaService.handleAck(topicDeviceId, ack);
         } else {
-            log.info("Ack da gaveta {}: {} {} {}", topicDeviceId, ack.tipo(), ack.commandId(), ack.status());
+            commandService.handleAck(topicDeviceId, ack);
         }
     }
 }
