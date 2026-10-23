@@ -14,8 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 /**
- * Ponto único de entrada para eventos de abertura do compartimento — hoje vindo
- * do simulador, amanhã do endpoint que o Node-RED chama a partir do MQTT do ESP32.
+ * Ponto único de entrada para eventos de abertura do compartimento: o simulador,
+ * a ponte-app provisória (POST /api/devices/events) e a gaveta por MQTT
+ * (DeviceEventIngestService).
  */
 @Service
 public class DoseEventService {
@@ -41,13 +42,20 @@ public class DoseEventService {
     public DoseResponse registerOpening(Long doseId, OpeningEventSource source) {
         Dose dose = doseRepository.findById(doseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Dose não encontrada"));
+        return registerOpening(dose, LocalDateTime.now(), source);
+    }
 
-        LocalDateTime now = LocalDateTime.now();
-        openingEventRepository.save(new OpeningEvent(dose, now, source));
+    /**
+     * Abertura num horário conhecido. A gaveta usa este caminho com o horário real
+     * da abertura (pode chegar atrasado, se ela estava sem internet).
+     */
+    @Transactional
+    public DoseResponse registerOpening(Dose dose, LocalDateTime openedAt, OpeningEventSource source) {
+        openingEventRepository.save(new OpeningEvent(dose, openedAt, source));
 
-        DoseStatus newStatus = doseStatusService.resolveStatusForOpening(dose.getScheduledAt(), now);
+        DoseStatus newStatus = doseStatusService.resolveStatusForOpening(dose.getScheduledAt(), openedAt);
         dose.setStatus(newStatus);
-        dose.setRegisteredAt(now);
+        dose.setRegisteredAt(openedAt);
         Dose saved = doseRepository.save(dose);
 
         if (newStatus == DoseStatus.ATRASADA) {

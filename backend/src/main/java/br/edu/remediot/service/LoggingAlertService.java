@@ -1,5 +1,6 @@
 package br.edu.remediot.service;
 
+import br.edu.remediot.entity.DeviceEvent;
 import br.edu.remediot.entity.Dose;
 import br.edu.remediot.entity.Medication;
 import br.edu.remediot.entity.Patient;
@@ -29,13 +30,20 @@ public class LoggingAlertService implements AlertService {
         }
     }
 
+    @Override
+    public void handleDeviceAlert(Patient patient, DeviceEvent event, String message) {
+        log.info("[ALERTA gaveta] cuidador={} paciente={} tipo={} evento={} — {}",
+                patient.getCaregiver().getId(), patient.getId(), event.getType(), event.getEventId(), message);
+    }
+
     protected void logAppWarning(Patient patient, Medication medication, Dose dose) {
         log.info("[ALERTA app] paciente={} medicamento={} (peso {}) status={} horario={}",
                 patient.getId(), medication.getName(), medication.getWeight(), dose.getStatus(), dose.getScheduledAt());
     }
 
     protected void triggerSoundAlarm(Patient patient, Medication medication, Dose dose) {
-        log.info("[GANCHO buzzer] paciente={} medicamento={} — publicar MQTT '.../buzzer: ligar' quando o ESP32 existir",
+        // Nada a publicar: a própria gaveta apita no atraso de peso 2 e 3 (D5)
+        log.info("[GANCHO buzzer] paciente={} medicamento={} — a gaveta apita sozinha no atraso (peso 2 e 3)",
                 patient.getId(), medication.getName());
     }
 
