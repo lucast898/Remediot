@@ -1,0 +1,36 @@
+[
+ {
+  "online": true,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": null,
+  "uptimeSeg": 3,
+  "rssi": -61,
+  "fw": "2.2.0-mvp",
+  "fonteHora": "NENHUMA",
+  "ultimaSyncNtp": null,
+  "gaveta": "FECHADA",
+  "alarmeAtivo": false,
+  "alertasPendentes": 0,
+  "modoReabastecer": false,
+  "agendaVersao": 0,
+  "filaOffline": 1,
+  "filaDescartados": 0,
+  "heapLivre": 180000,
+  "motivoReset": "POWERON"
+ },
+ {
+  "online": false,
+  "deviceId": "A4CF12B3C4D5",
+  "motivo": "CONEXAO_PERDIDA"
+ },
+ {
+  "online": false,
+  "deviceId": "A4CF12B3C4D5",
+  "motivo": "TROCANDO_WIFI"
+ },
+ {
+  "online": false,
+  "deviceId": "A4CF12B3C4D5",
+  "motivo": "REINICIO_SOLICITADO"
+ }
+]

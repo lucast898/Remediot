@@ -20,9 +20,10 @@ Projeto de TCC, orientado pelo Prof. Wallace Rodrigues de Santana. Alinhado aos 
 
 ## Escopo desta fase
 
-Construir **o aplicativo completo** (frontend + backend + banco), com **dados de sensor
-simulados**. O hardware (ESP32) e o WhatsApp entram numa fase futura — mas o código de
-agora deve deixar os **ganchos** prontos para eles (ver "Integrações futuras").
+O **aplicativo completo** (frontend + backend + banco) já existe. A fase atual é a
+**integração com a gaveta real (ESP32) por MQTT**, cujo firmware está pronto (parte do
+Cesar). Ver "Gaveta (ESP32) por MQTT". O WhatsApp continua numa fase futura — só o gancho
+(ver "Integrações futuras").
 
 **Alexa (em teste desde 29/09/2026):** os lembretes antes da dose já falam de verdade no
 Echo via Voice Monkey (API v3) — ver "Lembretes e Alexa".
@@ -50,11 +51,16 @@ a fonte única da verdade:
 ```
 [App React] <--REST--> [API Spring Boot] <--JPA--> [PostgreSQL]
                               ^
-                              | (fase futura)
-        [ESP32 gaveta] --MQTT--> [Node-RED] --HTTP--> API
-                              |
-                              +--> alarmes: Voice Monkey (Alexa) / WhatsApp / push
+                              | MQTT/TLS 8883 (Spring Integration MQTT)
+                              v
+        [ESP32 gaveta] <--MQTT/TLS--> [EMQX Cloud]
+
+[API Spring Boot] --> alarmes: Voice Monkey (Alexa) / WhatsApp (futuro) / push (futuro)
 ```
+
+Sem Node-RED (D6): o próprio Spring assina e publica no broker. A `ponte-app/` do Cesar
+(Node.js) fazia esse papel provisoriamente e **precisa ser desligada** quando o backend
+passar a falar MQTT — as duas juntas publicam agendas com `doseId` diferentes.
 
 ## Modelo de dados
 
@@ -104,21 +110,60 @@ Cores na UI: peso 1 = verde, peso 2 = amarelo, peso 3 = vermelho.
 
 ## Simulador de hardware (para demonstração)
 
-Como o ESP32 ainda não existe, cada Dose deve ter um botão/endpoint de teste
-"Simular abertura da gaveta" que registra um Evento e recalcula o status
-(`TOMADA`/`ATRASADA` conforme a janela; `NAO_RETIRADA` quando a janela passa sem evento).
-Isso permite demonstrar o fluxo completo na banca sem hardware.
+Cada Dose tem um botão/endpoint de teste "Simular abertura da gaveta" que registra um
+Evento e recalcula o status (`TOMADA`/`ATRASADA` conforme a janela; `NAO_RETIRADA` quando a
+janela passa sem evento). Permite demonstrar o fluxo na banca sem hardware. Com a gaveta,
+o botão só aparece para pacientes **sem gaveta vinculada** (D11).
+
+## Gaveta (ESP32) por MQTT
+
+Documentação em `docs/gaveta/`:
+- `CONTRATO-MQTT.md` — formato de **todas** as mensagens. **Não mude sem falar com o Cesar:
+  o firmware depende dele.**
+- `PROMPT-INTEGRACAO-GAVETA.md` — plano em fases G0 a G8 (um commit por fase).
+- `backend-exemplo/` — referência em Spring Boot 3.5 / Jackson 2. **Adaptar** para o nosso
+  Boot 4 / Jackson 3 (`tools.jackson.databind`), não copiar.
+- `ROTEIRO-DE-TESTES.md` — o que a gaveta manda em cada situação.
+
+Credenciais do broker só em variáveis de ambiente (`MQTT_HOST`, `MQTT_USUARIO`,
+`MQTT_SENHA`), com o usuário do **backend** (`remediot-backend`), nunca o dos dispositivos.
+Nada de host/senha no Git. Os zips do pacote ficam fora do Git (`*.zip` no `.gitignore`).
+
+Regras do contrato que não podem ser quebradas:
+- Backend ↔ gaveta só por MQTT, tópicos `remediot/v1/{deviceId}/...`.
+- `eventId` é a chave de idempotência: reenvio não gera registro nem alerta duplicado.
+- Confirmar o evento **depois** de gravar (após o commit), e confirmar também duplicados.
+- `ts` é epoch **UTC em segundos** e pode vir `null`. Horário local sempre com
+  `ZoneId.of("America/Sao_Paulo")` (o servidor de deploy roda em UTC).
+- Agenda: **retained**, versão sempre crescente (epoch em segundos), máx. 7.500 bytes e
+  40 entradas. Comandos **nunca** retained.
+- LGPD: tópicos e agenda sem nome de paciente nem de remédio.
+
+### Decisões do grupo
+
+| # | Tema | Decisão |
+|---|---|---|
+| D1 | Janela da dose | Igual ao app: 30 min antes até 30 min depois = `TOMADA`; até 3 h = `ATRASADA`; 3 h sem abrir = `NAO_RETIRADA`. A gaveta manda o status pronto no evento |
+| D2 | Horários | Livres por remédio, sem dias da semana. Cada `MedicationSchedule` = uma entrada da agenda (`doseId` = `"s"` + id) |
+| D3 | Limite | 40 horários por paciente com gaveta (limite de memória da gaveta) |
+| D4 | Uma abertura | Registra **todas** as doses no prazo; um evento por dose |
+| D5 | Buzzer e peso | No horário só LED (voz é da Alexa); no atraso, peso 2 e 3 apitam na própria gaveta |
+| D6 | Ponte MQTT | *Provisória:* direto no Spring (Spring Integration MQTT), sem Node-RED |
+| D7 | Vínculo gaveta ↔ paciente | *Provisória:* 4 caracteres do nome da rede da gaveta (`RemedIoT-C4D5`); uma gaveta por paciente |
+| D8 | Wi-Fi | *Provisória:* portal da própria gaveta, guiado pelo app |
+| D9 | Eventos que não são de dose | *Provisória:* fora de horário, dose dupla, gaveta esquecida e offline viram alerta ao cuidador + histórico |
+| D10 | "Fui eu" e reabastecer | *Provisória:* cuidador e paciente; botões na tela do paciente e no alerta |
+| D11 | Simulador | *Provisória:* só para pacientes sem gaveta vinculada |
+
+D6 a D11 seguem a sugestão do pacote e ainda precisam ser confirmadas com o grupo.
+
+Em aberto com o Cesar: abertura >30 min antes ou >3 h depois vira `ATRASADA` no
+`DoseStatusService` (simulador) mas `ABERTURA_FORA_HORARIO` na gaveta; e o bloqueio do modo
+reabastecer perto da dose (hoje 30 min antes/depois no firmware).
 
 ## Integrações futuras — deixe os ganchos, não implemente agora
 
-Isole a lógica de eventos e alarmes atrás de **interfaces/serviços**, para plugar o real
-depois sem reescrever telas:
-
-- `DoseEventService` — hoje recebe eventos do simulador; amanhã recebe do endpoint que o
-  Node-RED chama a partir do MQTT do ESP32.
-- `AlertService` — hoje só grava/loga; amanhã chama Voice Monkey (Alexa), WhatsApp e push.
-- Endpoint REST reservado, ex.: `POST /api/devices/events` (autenticado por chave do
-  dispositivo) para o Node-RED entregar os eventos.
+- `AlertService` — hoje só grava/loga; amanhã chama WhatsApp e push.
 
 ## Lembretes e Alexa
 
@@ -143,6 +188,8 @@ depois sem reescrever telas:
 ## O que NÃO fazer
 
 - Não usar Grafana nem InfluxDB.
-- Não implementar de verdade WhatsApp/MQTT nesta fase — só os ganchos.
+- Não implementar de verdade o WhatsApp nesta fase — só o gancho.
+- Não mudar o `docs/gaveta/CONTRATO-MQTT.md` sem combinar com o Cesar.
+- Não versionar credenciais do broker (nem o `secrets.h` do firmware).
 - Não afirmar "ingestão" — o sistema mede interação com o compartimento.
 - Não deixar cuidador ver pacientes que não estão na carteira dele (isolamento por dono).

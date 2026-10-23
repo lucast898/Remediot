@@ -1,0 +1,29 @@
+remediot:
+  mqtt:
+    # EMQX Cloud: endereço da deployment (página Overview). Nunca coloque a senha
+    # aqui: use variáveis de ambiente (MQTT_HOST, MQTT_USUARIO, MQTT_SENHA).
+    host: ${MQTT_HOST}
+    porta: 8883
+    usuario: ${MQTT_USUARIO}     # usuário do BACKEND (diferente do dos dispositivos)
+    senha: ${MQTT_SENHA}
+    client-id: remediot-backend
+  comando:
+    validade-seg: 120            # comando vencido não é executado pelo ESP
+    timeout-ack-seg: 30          # sem ack nesse tempo -> SEM_RESPOSTA
+
+spring:
+  jackson:
+    deserialization:
+      # tipo de evento que o backend ainda não conhece vira DESCONHECIDO em vez de erro
+      read-unknown-enum-values-using-default-value: true
+  datasource:
+    url: jdbc:h2:mem:remediot;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    br.mackenzie.remediot: INFO

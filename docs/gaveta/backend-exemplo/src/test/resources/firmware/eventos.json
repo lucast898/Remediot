@@ -1,0 +1,313 @@
+[
+ {
+  "eventId": "A4CF12B3C4D5-00012347",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "ABERTURA_FORA_HORARIO",
+  "ts": 1790245501,
+  "fonteHora": "NTP",
+  "uptimeMs": 1610,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "proximaDose": {
+    "doseId": "s1",
+    "dataReferencia": "2026-09-24",
+    "horaPrevista": "08:00",
+    "emSeg": 2099
+   }
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012347",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "ABERTURA_NAO_CLASSIFICADA",
+  "ts": null,
+  "fonteHora": "NENHUMA",
+  "uptimeMs": 5560,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "motivo": "SEM_HORA"
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012353",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "ALARME_INICIADO",
+  "ts": 1790290800,
+  "fonteHora": "NTP",
+  "uptimeMs": 166000,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s3",
+   "dataReferencia": "2026-09-24",
+   "horaPrevista": "20:00",
+   "horarioPrevisto": 1790290800,
+   "peso": 2,
+   "sonoro": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012351",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "ALARME_SILENCIADO",
+  "ts": 1790249402,
+  "fonteHora": "NTP",
+  "uptimeMs": 4660,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s2",
+   "dataReferencia": "2026-09-24",
+   "horaPrevista": "08:00",
+   "horarioPrevisto": 1790247600,
+   "peso": 3,
+   "commandId": "s-1"
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012346",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DISPOSITIVO_INICIADO",
+  "ts": 1790240400,
+  "fonteHora": "NTP",
+  "uptimeMs": 0,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "motivoReset": "POWERON",
+   "descricao": "Ligado na energia",
+   "fw": "2.2.0-mvp",
+   "agendaVersao": 0,
+   "modoDemo": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012349",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DOSE_ANTECIPADA",
+  "ts": 1790246401,
+  "fonteHora": "NTP",
+  "uptimeMs": 57960,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s1",
+   "dataReferencia": "2026-09-24",
+   "horaPrevista": "08:00",
+   "horarioPrevisto": 1790247600,
+   "peso": 1,
+   "antecedenciaSeg": 1199
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012359",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DOSE_ATRASADA",
+  "ts": 1790339401,
+  "fonteHora": "NTP",
+  "uptimeMs": 217260,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s1",
+   "dataReferencia": "2026-09-25",
+   "horaPrevista": "08:00",
+   "horarioPrevisto": 1790334000,
+   "peso": 1,
+   "atrasoSeg": 5401,
+   "alarmeSilenciado": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012354",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DOSE_CONFIRMADA",
+  "ts": 1790292001,
+  "fonteHora": "NTP",
+  "uptimeMs": 169860,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s3",
+   "dataReferencia": "2026-09-24",
+   "horaPrevista": "20:00",
+   "horarioPrevisto": 1790290800,
+   "peso": 2,
+   "atrasoSeg": 1201,
+   "alarmeSilenciado": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012357",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DOSE_EM_ATRASO",
+  "ts": 1790335800,
+  "fonteHora": "NTP",
+  "uptimeMs": 211000,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s1",
+   "dataReferencia": "2026-09-25",
+   "horaPrevista": "08:00",
+   "horarioPrevisto": 1790334000,
+   "peso": 1,
+   "motivo": "SEM_ABERTURA",
+   "alarmeSonoro": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012363",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "DOSE_PERDIDA",
+  "ts": 1790388000,
+  "fonteHora": "NTP",
+  "uptimeMs": 262000,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s3",
+   "dataReferencia": "2026-09-25",
+   "horaPrevista": "20:00",
+   "horarioPrevisto": 1790377200,
+   "peso": 2,
+   "motivo": "SEM_ABERTURA",
+   "alarmeSilenciado": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012348",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "FALHA_RELOGIO",
+  "ts": null,
+  "fonteHora": "NENHUMA",
+  "uptimeMs": 120000,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "motivo": "SEM_HORA_CONFIAVEL",
+   "semHoraSeg": 120
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012351",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "GAVETA_ESQUECIDA_ABERTA",
+  "ts": 1790262900,
+  "fonteHora": "NTP",
+  "uptimeMs": 900550,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "abertaHaSeg": 847
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012352",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "GAVETA_FECHADA_APOS_ALERTA",
+  "ts": 1790263013,
+  "fonteHora": "NTP",
+  "uptimeMs": 1013060,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "abertaPorSeg": 960
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012350",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "MODO_REABASTECER_ENCERRADO",
+  "ts": 1790262600,
+  "fonteHora": "NTP",
+  "uptimeMs": 600560,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "motivo": "TEMPO",
+   "aberturas": 2,
+   "duracaoRealSeg": 600
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012347",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "MODO_REABASTECER_INICIADO",
+  "ts": 1790262000,
+  "fonteHora": "NTP",
+  "uptimeMs": 560,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "duracaoSeg": 600,
+   "commandId": "r-1",
+   "renovado": false
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012351",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "POSSIVEL_DOSE_DUPLA",
+  "ts": 1790247001,
+  "fonteHora": "NTP",
+  "uptimeMs": 97360,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "doseId": "s1",
+   "dataReferencia": "2026-09-24",
+   "horaPrevista": "08:00",
+   "horarioPrevisto": 1790247600,
+   "peso": 1,
+   "estadoDose": "ANTECIPADA",
+   "aberturasNaJanela": 2
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012348",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "REABASTECIMENTO",
+  "ts": 1790262001,
+  "fonteHora": "NTP",
+  "uptimeMs": 1660,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "aberturaNoModo": 1
+  }
+ },
+ {
+  "eventId": "A4CF12B3C4D5-00012349",
+  "deviceId": "A4CF12B3C4D5",
+  "tipo": "RELOGIO_RESTABELECIDO",
+  "ts": 1790254800,
+  "fonteHora": "NTP",
+  "uptimeMs": 126910,
+  "boot": 1,
+  "fw": "2.2.0-mvp",
+  "reenvio": false,
+  "dados": {
+   "semHoraSeg": 126
+  }
+ }
+]

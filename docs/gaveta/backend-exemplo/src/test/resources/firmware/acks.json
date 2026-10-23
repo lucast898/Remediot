@@ -1,0 +1,470 @@
+[
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "VERSAO_INVALIDA"
+   }
+  ],
+  "commandId": "x",
+  "versao": 0,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-2",
+  "versao": 2,
+  "status": "APLICADA",
+  "doses": 6,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-3",
+  "versao": 3,
+  "status": "APLICADA",
+  "doses": 2,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "PESO_INVALIDO",
+    "doseId": "a"
+   },
+   {
+    "codigo": "PESO_INVALIDO",
+    "doseId": "b"
+   }
+  ],
+  "commandId": "cfg-4",
+  "versao": 4,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "HORA_INVALIDA",
+    "doseId": "a",
+    "detalhe": "25:00"
+   },
+   {
+    "codigo": "DIAS_INVALIDOS",
+    "doseId": "b"
+   }
+  ],
+  "commandId": "cfg-4",
+  "versao": 4,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "DOSE_ID_DUPLICADO",
+    "doseId": "a"
+   }
+  ],
+  "commandId": "cfg-4",
+  "versao": 4,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "DOSES_DEMAIS"
+   }
+  ],
+  "commandId": "cfg-4",
+  "versao": 4,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "VERSAO_ANTIGA",
+    "detalhe": "atual=3"
+   }
+  ],
+  "commandId": "cfg-velha",
+  "versao": 1,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [
+   {
+    "codigo": "JSON_INVALIDO",
+    "detalhe": "InvalidInput"
+   }
+  ],
+  "commandId": null,
+  "status": "REJEITADA",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240401
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-9",
+  "versao": 9,
+  "status": "APLICADA",
+  "doses": 0,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240401
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790248200
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790247598
+ },
+ {
+  "commandId": "s-0",
+  "tipo": "SILENCIAR_ALARME",
+  "status": "IGNORADO",
+  "mensagem": "SEM_ALARME_ATIVO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790247601
+ },
+ {
+  "commandId": "r-1",
+  "tipo": "MODO_REABASTECER",
+  "status": "ERRO",
+  "mensagem": "DOSE_EM_ANDAMENTO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790249402
+ },
+ {
+  "commandId": "s-1",
+  "tipo": "SILENCIAR_ALARME",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790249402
+ },
+ {
+  "commandId": "s-2",
+  "tipo": "SILENCIAR_ALARME",
+  "status": "IGNORADO",
+  "mensagem": "SEM_ALARME_ATIVO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258402
+ },
+ {
+  "commandId": "l-1",
+  "tipo": "LOCALIZAR",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258402
+ },
+ {
+  "commandId": "l-1",
+  "tipo": "LOCALIZAR",
+  "status": "DUPLICADO",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258408
+ },
+ {
+  "commandId": "e-1",
+  "tipo": "LOCALIZAR",
+  "status": "EXPIRADO",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258408
+ },
+ {
+  "commandId": "u-1",
+  "tipo": "FAZER_CAFE",
+  "status": "ERRO",
+  "mensagem": "TIPO_DESCONHECIDO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258408
+ },
+ {
+  "commandId": null,
+  "tipo": null,
+  "status": "ERRO",
+  "mensagem": "JSON_INVALIDO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258408
+ },
+ {
+  "commandId": "p-1",
+  "tipo": "PEDIR_STATUS",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258409
+ },
+ {
+  "commandId": "q-1",
+  "tipo": "RESSINCRONIZAR_AGENDA",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "agendaVersao": 1
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790258409
+ },
+ {
+  "commandId": "serial-1",
+  "tipo": "MODO_REABASTECER",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "duracaoSeg": 60
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790291368
+ },
+ {
+  "commandId": "c-1",
+  "tipo": "RECONHECER_ALERTA",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790245555
+ },
+ {
+  "commandId": "c-2",
+  "tipo": "RECONHECER_ALERTA",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790245555
+ },
+ {
+  "commandId": "c-3",
+  "tipo": "RECONHECER_ALERTA",
+  "status": "IGNORADO",
+  "mensagem": "ALERTA_NAO_PENDENTE",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790245556
+ },
+ {
+  "commandId": "A4CF12B3C4D5-00012351",
+  "tipo": "RECONHECER_ALERTA",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790247003
+ },
+ {
+  "commandId": "A4CF12B3C4D5-00012352",
+  "tipo": "RECONHECER_ALERTA",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790247003
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-java1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790262000
+ },
+ {
+  "commandId": "cmd-java1",
+  "tipo": "MODO_REABASTECER",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "duracaoSeg": 300
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790262000
+ },
+ {
+  "commandId": "cmd-java2",
+  "tipo": "LOCALIZAR",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790262000
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244000
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790262000
+ },
+ {
+  "commandId": "r-1",
+  "tipo": "MODO_REABASTECER",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "duracaoSeg": 600
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790262000
+ },
+ {
+  "commandId": "r-2",
+  "tipo": "MODO_REABASTECER",
+  "status": "ERRO",
+  "mensagem": "DOSE_EM_ANDAMENTO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790289601
+ },
+ {
+  "commandId": "r-3",
+  "tipo": "MODO_REABASTECER",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "duracaoSeg": 600
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790288701
+ },
+ {
+  "commandId": "r-4",
+  "tipo": "MODO_REABASTECER",
+  "status": "IGNORADO",
+  "mensagem": "MODO_NAO_ESTAVA_ATIVO",
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790289003
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-1",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": null
+ },
+ {
+  "commandId": "b-1",
+  "tipo": "LOCALIZAR",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244002
+ },
+ {
+  "commandId": "b-2",
+  "tipo": "RESSINCRONIZAR_AGENDA",
+  "status": "OK",
+  "mensagem": null,
+  "dados": {
+   "agendaVersao": 1
+  },
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244333
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-grande",
+  "versao": 7,
+  "status": "APLICADA",
+  "doses": 40,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244334
+ },
+ {
+  "commandId": "b-w",
+  "tipo": "RESETAR_WIFI",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244335
+ },
+ {
+  "commandId": "b-3",
+  "tipo": "REINICIAR",
+  "status": "OK",
+  "mensagem": null,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790244345
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "c",
+  "versao": 1,
+  "status": "APLICADA",
+  "doses": 3,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790240400
+ },
+ {
+  "tipo": "AGENDA",
+  "erros": [],
+  "commandId": "cfg-2",
+  "versao": 2,
+  "status": "APLICADA",
+  "doses": 2,
+  "deviceId": "A4CF12B3C4D5",
+  "ts": 1790249433
+ }
+]

@@ -8,3 +8,6 @@
 # SO
 .DS_Store
 Thumbs.db
+
+# Pacotes recebidos (o RemedIoT-TCCv4.zip tem secrets.h com senhas reais)
+*.zip
