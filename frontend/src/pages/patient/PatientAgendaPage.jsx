@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, PackageOpen, Phone, Plus } from 'lucide-react'
 import DoseStatusBadge from '../../components/DoseStatusBadge'
+import DeviceCard from '../../components/device/DeviceCard'
 import WeightBadge from '../../components/WeightBadge'
 import { useAuth } from '../../context/AuthContext'
 import { dosesApi, patientsApi } from '../../services/api'
@@ -18,6 +19,9 @@ export default function PatientAgendaPage() {
   const [error, setError] = useState('')
   const [simulatingId, setSimulatingId] = useState(null)
   const [justRegisteredId, setJustRegisteredId] = useState(null)
+  // D11: com gaveta vinculada, quem registra a abertura é a gaveta; o simulador some
+  const [hasDevice, setHasDevice] = useState(null)
+  const handleDeviceChange = useCallback((device) => setHasDevice(device.paired), [])
 
   const load = useCallback(async () => {
     setError('')
@@ -81,6 +85,10 @@ export default function PatientAgendaPage() {
         <p className="card">Nenhum telefone de cuidador cadastrado ainda.</p>
       )}
 
+      <div style={{ marginTop: '2rem' }}>
+        <DeviceCard patientId={auth.patientId} isCaregiver={false} onDeviceChange={handleDeviceChange} />
+      </div>
+
       <section style={{ marginTop: '2rem' }}>
         <div className="page-header">
           <h2 style={{ margin: 0 }}>Medicamentos de hoje</h2>
@@ -123,15 +131,17 @@ export default function PatientAgendaPage() {
                     <DoseStatusBadge status={dose.status} />
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn"
-                  disabled={simulatingId === dose.id}
-                  onClick={() => handleSimulate(dose.id)}
-                >
-                  <PackageOpen size={18} />
-                  {simulatingId === dose.id ? 'Registrando...' : 'Simular abertura da gaveta'}
-                </button>
+                {hasDevice === false && (
+                  <button
+                    type="button"
+                    className="btn"
+                    disabled={simulatingId === dose.id}
+                    onClick={() => handleSimulate(dose.id)}
+                  >
+                    <PackageOpen size={18} />
+                    {simulatingId === dose.id ? 'Registrando...' : 'Simular abertura da gaveta'}
+                  </button>
+                )}
               </div>
             </li>
           ))}

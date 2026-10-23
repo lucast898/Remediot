@@ -79,6 +79,22 @@ export const dosesApi = {
   simulateOpening: (doseId) => api.post(`/api/doses/${doseId}/simulate-opening`),
 }
 
+const devicePath = (patientId) => `/api/patients/${patientId}/device`
+
+export const deviceApi = {
+  get: (patientId) => api.get(devicePath(patientId)),
+  pair: (patientId, code) => api.post(`${devicePath(patientId)}/pair`, { code }),
+  unpair: (patientId) => api.delete(devicePath(patientId)),
+  events: (patientId, limit = 30) => api.get(`${devicePath(patientId)}/events?limit=${limit}`),
+  alerts: (patientId) => api.get(`${devicePath(patientId)}/alerts`),
+  acknowledgeAlert: (patientId, eventId) =>
+    api.post(`${devicePath(patientId)}/alerts/${encodeURIComponent(eventId)}/acknowledge`),
+  // action: refill, refill/stop, locate, silence-alarm, request-status, resync-agenda, reset-wifi, restart
+  command: (patientId, action, body) => api.post(`${devicePath(patientId)}/commands/${action}`, body),
+  commandStatus: (patientId, commandId) =>
+    api.get(`${devicePath(patientId)}/commands/${encodeURIComponent(commandId)}`),
+}
+
 export const dashboardApi = {
   get: () => api.get('/api/dashboard'),
 }

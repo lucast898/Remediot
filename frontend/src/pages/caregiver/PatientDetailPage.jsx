@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, MapPin, Pencil, Pill, Plus } from 'lucide-react'
 import DoseStatusBadge from '../../components/DoseStatusBadge'
+import DeviceCard from '../../components/device/DeviceCard'
 import WeightBadge from '../../components/WeightBadge'
 import { dosesApi, medicationsApi, patientsApi } from '../../services/api'
 import { wazeUrl } from '../../utils/waze'
@@ -129,6 +130,8 @@ export default function PatientDetailPage() {
           <strong>{missed}</strong> não retirados · <strong>{pending}</strong> pendentes
         </p>
       </section>
+
+      <DeviceCard patientId={patientId} isCaregiver />
 
       <section className="card" style={{ marginBottom: '1.5rem' }}>
         <div className="page-header">

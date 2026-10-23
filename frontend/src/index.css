@@ -503,3 +503,156 @@ button, input, select, textarea {
     font-size: 1.4rem;
   }
 }
+
+/* ---------------- Gaveta (ESP32) ---------------- */
+
+.alert-success {
+  background: var(--color-weight-1-bg);
+  color: var(--color-weight-1);
+  border: 1px solid #a7f3d0;
+}
+
+.alert-info {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border: 1px solid #99f6e4;
+}
+
+.device-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.device-pill-online {
+  background: var(--color-weight-1-bg);
+  color: var(--color-weight-1);
+}
+
+.device-pill-offline {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.device-facts {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: 0.4rem;
+  font-size: 1.05rem;
+}
+
+.device-fact-warning {
+  color: var(--color-weight-2);
+  font-weight: 700;
+}
+
+.device-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.device-alerts {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  background: var(--color-danger-bg);
+}
+
+.device-alerts h3 {
+  margin-top: 0;
+  color: var(--color-danger);
+}
+
+.device-alerts ul,
+.device-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.device-alerts li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  color: var(--color-text);
+}
+
+.device-history {
+  margin-top: 1.25rem;
+}
+
+.device-history summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  color: var(--color-primary-dark);
+}
+
+.device-history li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.confirm-box {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.wizard {
+  margin-top: 1rem;
+  border: 2px solid var(--color-primary);
+}
+
+.wizard-steps {
+  padding-left: 1.4rem;
+  display: grid;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.code-input {
+  font-size: 2rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  max-width: 14rem;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+
+.code-text {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
