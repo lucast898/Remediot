@@ -26,7 +26,7 @@ lógica de status e pesos."*
 ## 3. Documentação do TCC
 
 - [ ] **README técnico** (já incluso) atualizado com prints das telas.
-- [ ] **Diagrama de arquitetura** (app ↔ API ↔ banco; e a fase futura com ESP32/MQTT/Node-RED).
+- [ ] **Diagrama de arquitetura** (app ↔ API ↔ banco ↔ EMQX ↔ gaveta ESP32; há um em Mermaid no README).
 - [ ] **Modelo de dados** (diagrama de entidades) — o Claude Code pode gerar em Mermaid.
 - [ ] **Documento de limitações**: registre explicitamente que "abertura ≠ ingestão" (isso
       demonstra rigor científico e antecipa a pergunta da banca).
@@ -65,11 +65,14 @@ Ensaie com cronômetro. Tenha o seed de dados carregado antes de começar.
 Descreva no TCC, mesmo sem implementar:
 
 - **Hardware**: ESP32 + sensor magnético (reed switch) + buzzer, gaveta impressa em 3D.
-- **Comunicação**: ESP32 publica evento via **MQTT** (ex.: `remediot/paciente/17/comp/3`).
-- **Ponte**: **Node-RED** assina o MQTT e faz `POST /api/devices/events` na API.
-- **Alarmes 20/10/1 min**: agendador no backend dispara **Voice Monkey** (Alexa anuncia por
-  voz na Echo do paciente via webhook) + notificação push + WhatsApp para peso 3.
-- **Buzzer**: a API publica MQTT de volta (`.../buzzer: ligar`) e o ESP32 apita.
+- **Comunicação (implementada)**: ESP32 ↔ **EMQX Cloud** ↔ API Spring por MQTT/TLS, nos
+  tópicos `remediot/v1/{deviceId}/eventos`, `/eventos/confirmacao`, `/status`,
+  `/config/agenda`, `/comando` e `/ack` (ver `docs/gaveta/CONTRATO-MQTT.md`). Sem Node-RED
+  (D6, ainda provisória até o grupo confirmar).
+- **Lembretes (implementados)**: 10 min / 5 min / 30 s antes da dose, por voz na Alexa
+  (Voice Monkey). Falta: notificação push e WhatsApp para peso 3.
+- **Buzzer (implementado no firmware)**: a própria gaveta apita no atraso de peso 2 e 3;
+  a API não precisa mandar comando.
 - **Evolução**: sensor de peso para aumentar a precisão do monitoramento.
 
 ## 7. Antes de entregar

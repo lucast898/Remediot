@@ -163,8 +163,23 @@ horários no `MedicationService`, os `LocalDateTime.now()` atuais). A integraç�
 acrescenta código ao redor. O status de uma dose vinda da gaveta é calculado pelo próprio
 `DoseStatusService`, com o horário real da abertura (`ts` convertido para São Paulo).
 
-Entidades da gaveta (G1): `Device` (PK = deviceId), `DeviceEvent` (PK = eventId),
-`DeviceCommand` (PK = commandId) e `DeviceAgenda`.
+### Onde está cada parte (fases G0 a G8 concluídas em 23/10/2026)
+
+- Entidades: `Device` (PK = deviceId), `DeviceEvent` (PK = eventId), `DeviceCommand`
+  (PK = commandId), `DeviceAgenda`.
+- `mqtt/`: `MqttConfig` (só com `remediot.mqtt.enabled=true`), `DeviceMessageRouter`
+  (nenhuma exceção sai para o Paho), `DeviceMessagePublisher` (MQTT ou log).
+- `service/device/`: `DeviceEventIngestService` (eventos → doses, confirmação após o commit),
+  `DeviceAgendaService` + `AgendaRules` (agenda retained; publicada após o commit via
+  `MedicationsChangedEvent`/`DeviceAgendaRequestedEvent`), `DeviceStatusService` (heartbeat,
+  LWT, alerta de offline > 10 min), `DeviceService` (pareamento, estado, histórico),
+  `DeviceCommandService` (comandos, acks, `SEM_RESPOSTA` em 30 s).
+- REST: `/api/patients/{id}/device` (GET, `/pair`, DELETE, `/events`, `/alerts`,
+  `/alerts/{eventId}/acknowledge`, `/commands/...`). Parear, desvincular, trocar Wi-Fi e
+  reiniciar: só `CUIDADOR`.
+- Front: `components/device/DeviceCard.jsx` e `ConnectDeviceWizard.jsx`, `utils/device.js`.
+- `POST /api/devices/events` continua existindo só para a `ponte-app/` provisória.
+- Teste de contrato: `FirmwareContractTest` lê os JSONs do firmware em modo estrito.
 
 Em aberto com o Cesar: abertura >30 min antes ou >3 h depois vira `ATRASADA` no
 `DoseStatusService` (simulador) mas `ABERTURA_FORA_HORARIO` na gaveta; e o bloqueio do modo
