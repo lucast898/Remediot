@@ -13,6 +13,7 @@ import br.edu.remediot.repository.DoseRepository;
 import br.edu.remediot.repository.MedicationRepository;
 import br.edu.remediot.repository.OpeningEventRepository;
 import br.edu.remediot.repository.PatientRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,19 +32,22 @@ public class MedicationService {
     private final DoseRepository doseRepository;
     private final OpeningEventRepository openingEventRepository;
     private final DoseReminderRepository doseReminderRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public MedicationService(
             MedicationRepository medicationRepository,
             PatientRepository patientRepository,
             DoseRepository doseRepository,
             OpeningEventRepository openingEventRepository,
-            DoseReminderRepository doseReminderRepository
+            DoseReminderRepository doseReminderRepository,
+            ApplicationEventPublisher eventPublisher
     ) {
         this.medicationRepository = medicationRepository;
         this.patientRepository = patientRepository;
         this.doseRepository = doseRepository;
         this.openingEventRepository = openingEventRepository;
         this.doseReminderRepository = doseReminderRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +62,9 @@ public class MedicationService {
         Patient patient = patientRepository.getReferenceById(patientId);
         Medication medication = new Medication(patient, request.name(), request.dose(), request.weight());
         request.times().forEach(time -> medication.getSchedules().add(new MedicationSchedule(medication, time)));
-        return MedicationResponse.from(medicationRepository.save(medication));
+        MedicationResponse response = MedicationResponse.from(medicationRepository.save(medication));
+        eventPublisher.publishEvent(new MedicationsChangedEvent(patientId));
+        return response;
     }
 
     /**
@@ -86,7 +92,9 @@ public class MedicationService {
                 .filter(time -> !existingTimes.contains(time))
                 .forEach(time -> medication.getSchedules().add(new MedicationSchedule(medication, time)));
 
-        return MedicationResponse.from(medicationRepository.save(medication));
+        MedicationResponse response = MedicationResponse.from(medicationRepository.save(medication));
+        eventPublisher.publishEvent(new MedicationsChangedEvent(patientId));
+        return response;
     }
 
     /** Apaga o medicamento junto com todo o histórico de doses dele. */
@@ -95,6 +103,7 @@ public class MedicationService {
         Medication medication = findOwnedByPatient(medicationId, patientId);
         deleteDoseHistory(medication.getSchedules());
         medicationRepository.delete(medication);
+        eventPublisher.publishEvent(new MedicationsChangedEvent(patientId));
     }
 
     private void deleteDoseHistory(Collection<MedicationSchedule> schedules) {

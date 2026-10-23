@@ -14,9 +14,11 @@ public class DeviceAckService {
     private static final Logger log = LoggerFactory.getLogger(DeviceAckService.class);
 
     private final JsonMapper jsonMapper;
+    private final DeviceAgendaService agendaService;
 
-    public DeviceAckService(JsonMapper jsonMapper) {
+    public DeviceAckService(JsonMapper jsonMapper, DeviceAgendaService agendaService) {
         this.jsonMapper = jsonMapper;
+        this.agendaService = agendaService;
     }
 
     public void handle(String topicDeviceId, String payload) {
@@ -27,6 +29,14 @@ public class DeviceAckService {
             log.warn("Ack da gaveta {} com JSON inválido descartado: {}", topicDeviceId, e.getOriginalMessage());
             return;
         }
-        log.info("Ack da gaveta {}: {} {} {}", topicDeviceId, ack.tipo(), ack.commandId(), ack.status());
+        if (ack.deviceId() != null && !ack.deviceId().equals(topicDeviceId)) {
+            log.warn("deviceId do ack ({}) diferente do tópico ({}): descartado", ack.deviceId(), topicDeviceId);
+            return;
+        }
+        if (DeviceAckMessage.TYPE_AGENDA.equals(ack.tipo())) {
+            agendaService.handleAck(topicDeviceId, ack);
+        } else {
+            log.info("Ack da gaveta {}: {} {} {}", topicDeviceId, ack.tipo(), ack.commandId(), ack.status());
+        }
     }
 }
