@@ -145,7 +145,7 @@ Regras do contrato que não podem ser quebradas:
 |---|---|---|
 | D1 | Janela da dose | Igual ao app: 30 min antes até 30 min depois = `TOMADA`; até 3 h = `ATRASADA`; 3 h sem abrir = `NAO_RETIRADA`. A gaveta manda o status pronto no evento |
 | D2 | Horários | Livres por remédio, sem dias da semana. Cada `MedicationSchedule` = uma entrada da agenda (`doseId` = `"s"` + id) |
-| D3 | Limite | 40 horários por paciente com gaveta (limite de memória da gaveta) |
+| D3 | Limite | 40 horários por paciente com gaveta (limite de memória da gaveta). Checado só na **publicação da agenda**, não no cadastro de remédios |
 | D4 | Uma abertura | Registra **todas** as doses no prazo; um evento por dose |
 | D5 | Buzzer e peso | No horário só LED (voz é da Alexa); no atraso, peso 2 e 3 apitam na própria gaveta |
 | D6 | Ponte MQTT | *Provisória:* direto no Spring (Spring Integration MQTT), sem Node-RED |
@@ -156,6 +156,15 @@ Regras do contrato que não podem ser quebradas:
 | D11 | Simulador | *Provisória:* só para pacientes sem gaveta vinculada |
 
 D6 a D11 seguem a sugestão do pacote e ainda precisam ser confirmadas com o grupo.
+
+**As regras de horário e de configuração de doses do app não mudam com a integração**
+(`DoseStatusService`, `DoseSchedulerService`, `DoseGenerationService`, cadastro/edição de
+horários no `MedicationService`, os `LocalDateTime.now()` atuais). A integração só
+acrescenta código ao redor. O status de uma dose vinda da gaveta é calculado pelo próprio
+`DoseStatusService`, com o horário real da abertura (`ts` convertido para São Paulo).
+
+Entidades da gaveta (G1): `Device` (PK = deviceId), `DeviceEvent` (PK = eventId),
+`DeviceCommand` (PK = commandId) e `DeviceAgenda`.
 
 Em aberto com o Cesar: abertura >30 min antes ou >3 h depois vira `ATRASADA` no
 `DoseStatusService` (simulador) mas `ABERTURA_FORA_HORARIO` na gaveta; e o bloqueio do modo
